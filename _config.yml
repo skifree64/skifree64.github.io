@@ -9,8 +9,8 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: SKIFREE64
-subtitle: "Data Science"
+title: skifree64's blog
+subtitle: "for Data Science"
 email: sickflow@naver.com
 name: Hyunsik Yoo
 description: >
