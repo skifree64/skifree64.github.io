@@ -9,18 +9,18 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: SKIFREE64
+title: S K I F R E E 6 4
 subtitle: "Data Science"
 email: sickflow@naver.com
 name: Hyunsik Yoo
 description: >
-  A simple yet classy theme for your Jekyll website or blog.
+  Data Mining, Machine Learning, Database System.
 # Base URL of site (i.e. /blog). It should always start with a slash,
 # and never end with a slash. Set it to a blank value if hosting at the
 # root of your server.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
-cover: "/assets/header_image.jpg"
+cover: "/assets/header_image0.jpg"
 logo: "/assets/logo.png"
 
 # Build settings
@@ -81,14 +81,14 @@ social:
     username: TheBenCentra
     url: https://twitter.com/TheBenCentra
     desc: Follow me on Twitter
-    share: true
+    share: false
 
   - name: Facebook
     icon: facebook
     username: thebencentra
     url: ""
     desc: Friend me on Facebook
-    share: true
+    share: false
 
   - name: GitHub
     icon: github
@@ -102,7 +102,7 @@ social:
     username: Ben Centra
     url: https://www.linkedin.com/pub/ben-centra/47/769/60a
     desc: Connect with me on LinkedIn
-    share: true
+    share: false
 
   - name: Google+
     icon: google-plus
@@ -130,7 +130,7 @@ social:
     username: ""
     url: ""
     desc: Follow me on Pinterest
-    share: true
+    share: false
 
   - name: SoundCloud
     icon: soundcloud
