@@ -9,7 +9,7 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: skifree64's blog
+title: 디비디비딥러닝
 subtitle: "for Data Science"
 email: sickflow@naver.com
 name: Hyunsik Yoo
@@ -20,8 +20,8 @@ description: >
 # root of your server.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
-cover: "/assets/header_image0.jpg"
-logo: "/assets/logo.png"
+cover: "/assets/divi.jpg"
+logo: "/assets/divi.jpg"
 
 # Build settings
 markdown: kramdown
