@@ -1,8 +1,10 @@
 ---
 layout: post
 title:  "Collaborative Filtering"
+author: 유현식, 임정빈, 정연경, 이준희
 date:   2019-11-25
-categories: DeepLearning
+categories: Machine Learning
+tags: recommendation_system
 ---
 
 
