@@ -1,3 +1,14 @@
+---
+
+layout: post
+title:  "Collaborative Filtering"
+date:   2019-11-25
+categories: DeepLearning
+
+---
+
+
+
 [TOC]
 
 
