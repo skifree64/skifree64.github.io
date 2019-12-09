@@ -265,7 +265,7 @@ def sim_user(user1,user2):
 
 두 유저간 유사도를 계산하는 함수이다. 두 유저가 모두 본 영화의 평점만 이용한다. 두 사용자의 영화 평점을 벡터로 하여 유사도를 구한다. 위 코드에선 보정된 코사인 유사도인 피어슨 유사도 (Pearson correlation  coefficient )공식을 사용한다.
 
-![sim1]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim1.png )
+![sim1]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/pear.png )
 
 
 
