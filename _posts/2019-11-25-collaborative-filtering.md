@@ -114,7 +114,7 @@ tags: recommendation_system
 
 두 아이템에 대한 사용자들의 평가 점수를 벡터로 나타내보자. 공조와 라라랜드의 유사도를 구하려고 한다면, 이 둘을 모두 평가한 사용자는, 재석, 명수, 세형, 광희다. 각각 (5, 1, 4, 4)와 (4, 1, 4, 3)이다.
 
-![image-20191208190842648](C:\Users\Hyunsik Yoo\AppData\Roaming\Typora\typora-user-images\image-20191208190842648.png)
+![sim0](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim0.png)
 
 공조와 라라랜드의 유사도는 0.99로 상당히 높은 유사도를 보인다. 이는 즉 공조를 좋아하는 사람은 라라랜드를 좋아할 확률이 높다는 말로 풀이 될수 있고, 그 반대로도 해석할 수 있다.
 
