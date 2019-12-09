@@ -117,7 +117,7 @@ tags: recommendation_system
 
 ![sim0](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim0.png)
 
-![sim0]( https://github.com/skifree64/skifree64.github.io/blob/master/_posts/sim0.png )
+![sim0](  https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim0.png  )
 
 공조와 라라랜드의 유사도는 0.99로 상당히 높은 유사도를 보인다. 이는 즉 공조를 좋아하는 사람은 라라랜드를 좋아할 확률이 높다는 말로 풀이 될수 있고, 그 반대로도 해석할 수 있다.
 
