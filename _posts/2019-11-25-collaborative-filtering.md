@@ -115,8 +115,6 @@ tags: recommendation_system
 
 두 아이템에 대한 사용자들의 평가 점수를 벡터로 나타내보자. 공조와 라라랜드의 유사도를 구하려고 한다면, 이 둘을 모두 평가한 사용자는, 재석, 명수, 세형, 광희다. 각각 (5, 1, 4, 4)와 (4, 1, 4, 3)이다.
 
-![sim0](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim0.png)
-
 ![sim0](  https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim0.png  )
 
 공조와 라라랜드의 유사도는 0.99로 상당히 높은 유사도를 보인다. 이는 즉 공조를 좋아하는 사람은 라라랜드를 좋아할 확률이 높다는 말로 풀이 될수 있고, 그 반대로도 해석할 수 있다.
@@ -127,13 +125,13 @@ tags: recommendation_system
 
 코사인 유사도는 다음과 같이 정의된다.
 
-![sim2](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim2.png)
+![sim2]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim2.png )
 
 
 
 다음의 두 아이템의 유사도를 구해보자, (5, 5, 5, 5, 5, 5), (1, 1, 1, 1, 1, 1). 이 때, 이 둘 간의 유사도는 1이다. 두 아이템에 대한 사용자들의 평가는 극명하게 갈리는데, 이 둘의 유사도가 1이라고 한다. 이렇게 코사인 유사도에서는 유저마다의 개인적인 평가 성향을 반영하지 못한다는 단점이 있다. 이를 보완하기 위해, 앞서 말한 피어슨 유사도, 혹은 약간의 보정 과정을 거친 코사인 유사도를 사용할 수도 있다.
 
-![sim1](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim1.png)
+![sim1]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim1.png )
 
 
 
@@ -146,9 +144,7 @@ tags: recommendation_system
 ​	
 
 ​	유사도를 다 구했다면, 우리의 다음 관심사는 평점을 예측하는 방법이다. 평점 예측의 가장 대표적인 방법은 평점을 유사도로 가중 평균하는 방법이다. 아이템 기반에서 User1이 movie1에 줄 평점을 예측하는 상황을 가정하자. 우선, User1이 평점을 준 모든 영화와 movie1의 유사도를 계산한다. 그리고 User1이 각 영화에 준 평점과 유사도를 곱하여 평균을 내리는 것이다. 사용자 기반에서는 영화와 사용자를 바꾸어 생각하면 되므로 설명을 생략하겠다. 이 가정에서는 모든 영화와 movie1의 유사도를 구했지만 모든 영화와의 유사도를 이용하면 오버 피팅의 가능성이 커진다. 따라서 보통 movie1과의 유사도가 큰 영화만을 이용한다. 유사도가 큰 데이터를 고르는 방법에는 대표적으로 두 가지가 있다. 첫 번째는 미리 설정한 수치만큼의 유사도를 넘어야만 예측에 사용하는 방법이다. 그리고 두 번째는 K-nn(K-nearest neighbors)알고리즘을 사용하여 최근접 이웃을 구성하는 방법이다. 이 과정에서 구한 최근접 이웃의 수를 N이라고 하고 i번째 최근접 이웃과의 유사도를 n_i, 그 이웃이 준 평점을 R_i라고 할 때, 예상 평점 R_predict은 다음의 식으로 표현할 수 있다.
-$$
-R_{predict}=(∑_{i=1}^Nn_i R_i)/(∑_{i=1}^Nn_i )
-$$
+
 
 
 일반적으로는, 피어슨 유사도와 같이 mean으로 보정하여 다음과 같은 식을 사용한다.
@@ -204,7 +200,9 @@ for i in ratings:
 
 "means" 자료구조엔 각 유저에 대한 해당 유저가 매긴 평점의 평균값을 저장한다. 나중에 유저간 유사도를 계산하거나 평점을 예측할 때 쓰인다.
 
+------
 
+**유저간 유사도 구하는 함수**
 
 ```python
 def sim_user(user1,user2):
@@ -238,12 +236,13 @@ def sim_user(user1,user2):
 
 두 유저간 유사도를 계산하는 함수이다. 두 유저가 모두 본 영화의 평점만 이용한다. 두 사용자의 영화 평점을 벡터로 하여 유사도를 구한다. 위 코드에선 보정된 코사인 유사도인 "Pearson correlation"공식을 사용한다.
 
-![sim1](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim1.png)
+![sim1]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim1.png )
 
+------
 
+**각 유저의 다른 모든 유저에 대한 similarity 계산해서 저장하는 함수**
 
 ```python
-# 각 유저의 다른 모든 유저에 대한 similarity 계산해서 저장
 def calculate_similarity():
     
     # 1 ~ 943(N_user)
@@ -261,10 +260,11 @@ def calculate_similarity():
 
 이 함수를 실행하면 모든 유저 조합간 유사도를 계산한다. 즉, 각 943명의 유저에 대해 해당 유저를 제외한 다른 모든 유저(942명)와의 유사도를 계산하고, 유사도가 큰 것이 앞에 나오게 정렬해 "neighbors" 자료구조에 저장한다.  유사도 대로 정렬하는 이유는 rating 예측시 KNN 기법을 사용하는데, 쉽게 제일 가까운(유사도가 제일 큰) 이웃 유저를 접근할 수 있기 때문이다.
 
+------
 
+**유저(user_id)의 영화(movie_id) 평점 예측  **
 
 ```python
-# 유저(user_id)의 영화(movie_id) 평점 예측        
 def predict_rating(user_id, movie_id):
     rating = 0
     K = 0
