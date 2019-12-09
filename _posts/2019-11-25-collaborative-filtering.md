@@ -233,12 +233,67 @@ def sim_user(user1,user2):
         return 0.0#분모가 0이면 계산할 수 없다. 0.0리턴
 ```
 
-두 유저간 유사도를 계산하는 함수이다. 두 유저가 모두 본 영화의 평점만 이용한다. 두 사용자의 영화 평점을 벡터로 하여 유사도를 구한다. 위 코드에선 "Pearson correlation"공식을 사용한다.
+두 유저간 유사도를 계산하는 함수이다. 두 유저가 모두 본 영화의 평점만 이용한다. 두 사용자의 영화 평점을 벡터로 하여 유사도를 구한다. 위 코드에선 보정된 코사인 유사도인 "Pearson correlation"공식을 사용한다.
 
 ![sim1](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim1.png)
 
-![sim2](C:\Users\Hyunsik Yoo\Github\skifree64.github.io\_posts\sim2.png)
 
+
+```python
+# 각 유저의 다른 모든 유저에 대한 similarity 계산해서 저장
+def calculate_similarity():
+    
+    # 1 ~ 943(N_user)
+    for i in range(1, N_user+1):
+        nei = []
+        for j in range(1, N_user+1):
+            if i != j:
+                nei.append((j, sim_user(i, j)))
+                   
+        # 네이버 유저의 similarity 기준 내림차순으로 정렬            
+        nei.sort(key=lambda x: x[1], reverse=True)
+        neighbors[i] = nei
+        # neighbors = { user_id : [sorted (user_id, similarity)] }
+```
+
+이 함수를 실행하면 모든 유저 조합간 유사도를 계산한다. 즉, 각 943명의 유저에 대해 해당 유저를 제외한 다른 모든 유저(942명)와의 유사도를 계산하고, 유사도가 큰 것이 앞에 나오게 정렬해 "neighbors" 자료구조에 저장한다.  유사도 대로 정렬하는 이유는 rating 예측시 KNN 기법을 사용하는데, 쉽게 제일 가까운(유사도가 제일 큰) 이웃 유저를 접근할 수 있기 때문이다.
+
+
+
+```python
+# 유저(user_id)의 영화(movie_id) 평점 예측        
+def predict_rating(user_id, movie_id):
+    rating = 0
+    K = 0
+    j = 0
+    for i in range(N_user - 1):
+        # valid neighbor 40개까지
+        if j > 40:
+            break
+        # 해당 영화 평점을 실제로 매긴 neighbor 유저만 취급
+        if movie_id in ratings[neighbors[user_id][i][0]]:
+            j += 1
+            nei_id = neighbors[user_id][i][0]
+            nei_sim = neighbors[user_id][i][1]
+            
+            rating += (ratings[nei_id][movie_id] - means[nei_id]) * nei_sim
+            K += nei_sim
+    
+    if K != 0:
+        rating = rating / K + means[user_id]
+    else:
+        rating = 2.3
+        
+    if rating < 1:
+        rating = 1
+    elif rating > 5:
+        rating = 5
+        
+    return rating
+
+```
+
+이 함수는 한 유저의 한 영화에 대한 평점을 예측해 리턴하는 함수이다. 
 
 # 5. Related Work
 
