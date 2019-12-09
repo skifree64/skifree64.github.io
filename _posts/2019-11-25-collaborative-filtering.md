@@ -40,54 +40,36 @@ tags: recommendation_system
 
 # 2. Datasets
 
- 1. 데이터 셋의 내용
+**데이터 셋의 내용**
 
-    우리가 사용할 데이터 셋은 ‘MovieLens Data’이다. Group Lens(http://www.grouplens.org/node/12)
+우리가 사용할 데이터 셋은 ‘MovieLens Data’이다. [Grouplens](http://www.grouplens.org/node/12)라는 미네소타 대학의 컴퓨터과의 연구실에서 수집한 추천 알고리즘을 위한 영화 데이터이다. 여기에는 데이터의 양에 따라 데이터셋이 다양하게 있는데, 그 중에 100K DataSet을 사용할 것이다
 
-    라는 미네소타 대학의 컴퓨터과의 연구실에서 수집한 추천 알고리즘을 위한 영화 데이터이다. 여기에는 데이터의 양에 따라 데이터셋이 다양하게 있는데, 그 중에 100K DataSet을 사용할 것이다(http://www.grouplens.org/system/files/ml-100k.zip). 이 데이터 셋은 총20가지의 데이터로 이루어져 있다. 각 데이터의 내용은 다음의 표와 같다.
+[100K]: http://www.grouplens.org/system/files/ml-100k.zip
 
-    | 파일명                     | 데이터 내용                                                  |
-    | -------------------------- | ------------------------------------------------------------ |
-    | u.data                     | 943명의 사용자가 1682개의  영화에 남긴 100000개의 평점 데이터. 무작위 배열 |
-    | u.info                     | u.data의 사용자의 수, 영화의  수, 평점의 수                  |
-    | u.item                     | 이 데이터에서 사용된 영화의 정보                             |
-    | u.genre                    | 장르와 각 장르의 코드                                        |
-    | u.user                     | 유저의 ID, 나이, 성별, 직업, 주소                            |
-    | u.occupation               | 직업의 종류                                                  |
-    | u.base, u.test (1~5, a, b) | u.data의 데이터를 정렬하여 훈련데이터와 테스트데이터로 나누어 둔  데이터 |
+이 데이터 셋은 총20가지의 데이터로 이루어져 있다. 각 데이터의 내용은 다음의 표와 같다.
 
-    이 중에서 우리는 rating data가 포함된 u.base와 u.test데이터만 사용할 것이다. 유저의 많은 특성을 가장 포괄적으로 아우를 수 있는 게 바로 rating data이고 이 값을 통해 유저에게 가장 직관적으로 영화를 추천해 줄 수 있기 때문이다. 물론 사용자에 관한 데이터를 이용하여 K-mean clustering 등으로 더욱 정밀한 유사도 분석이 가능할 수도 있겠지만, 본 프로젝트에서는 평점을 이용하는 전통적인 협업 필터링 기법을 소개하고자 한다.
+| 파일명                     | 데이터 내용                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| u.data                     | 943명의 사용자가 1682개의  영화에 남긴 100000개의 평점 데이터. 무작위 배열 |
+| u.info                     | u.data의 사용자의 수, 영화의  수, 평점의 수                  |
+| u.item                     | 이 데이터에서 사용된 영화의 정보                             |
+| u.genre                    | 장르와 각 장르의 코드                                        |
+| u.user                     | 유저의 ID, 나이, 성별, 직업, 주소                            |
+| u.occupation               | 직업의 종류                                                  |
+| u.base, u.test (1~5, a, b) | u.data의 데이터를 정렬하여 훈련데이터와 테스트데이터로 나누어 둔  데이터 |
 
-    그리고 movieId에 대응하는 영화가 무엇인지 확인하기 위해 u.item도 참고한다.
-
-    u.base와 u.test의 각 열의 대한 설명은 다음 표와 같다.
-
-    | 열        | 내용                                   | 사용  여부 |
-    | --------- | -------------------------------------- | ---------- |
-    | userId    | 사용자의  ID                           | o          |
-    | movieId   | 영화의  ID                             | o          |
-    | rating    | 사용자가  영화에 남긴 평점, 1~5의 정수 | o          |
-    | timestamp | 평점을  남긴 시간                      | x          |
-
-	2.  데이터 셋 전처리
-
-    이 데이터의 모든 파일은 tab("\t")을 기준으로 열이 분리되어 있다. 이런 형식의 데이터를 pandas로 읽어 들이기 위해선 다음과 같은 코드를 입력하면 된다.  
-
-    `data = pd.read_csv([file_name], sep="\t", names=[column_list])`
-
-    [file_name]에 읽어드릴 파일의 이름, [column_list]에 열 이름을 리스트로 전달하면 된다.
-
-    하지만 열람하기 쉽도록 csv파일로 변환하고자 한다. 다음의 코드를 실행시키면 u.base와 u.test를 csv파일로 변환시킬 수 있다.
-
-    (Ratingdata.py)
-
-    읽어들이는 파일의 이름과, 내보내는 파일의 이름을 수정하면 7쌍의 u.base, u.test를 csv파일로 변환시킬 수 있다.
-
-    u.item을 이용해서 영화 데이터도 csv파일로 전환한다.
-
-    (Moviedata.py)
+이 중에서 우리는 rating data가 포함된 u.base와 u.test데이터만 사용할 것이다. 유저의 많은 특성을 가장 포괄적으로 아우를 수 있는 게 바로 rating data이고 이 값을 통해 유저에게 가장 직관적으로 영화를 추천해 줄 수 있기 때문이다. 물론 사용자에 관한 데이터를 이용하여 K-mean clustering 등으로 더욱 정밀한 유사도 분석이 가능할 수도 있겠지만, 본 프로젝트에서는 평점만 이용하는 전통적인 협업 필터링 기법을 소개하고자 한다.
 
 
+
+u.base와 u.test의 각 열의 대한 설명은 다음 표와 같다.
+
+| 열        | 내용                                   | 사용  여부 |
+| --------- | -------------------------------------- | ---------- |
+| userId    | 사용자의  ID                           | o          |
+| movieId   | 영화의  ID                             | o          |
+| rating    | 사용자가  영화에 남긴 평점, 1~5의 정수 | o          |
+| timestamp | 평점을  남긴 시간                      | x          |
 
 
 
@@ -143,23 +125,35 @@ tags: recommendation_system
 
 ​	
 
-​	유사도를 다 구했다면, 우리의 다음 관심사는 평점을 예측하는 방법이다. 평점 예측의 가장 대표적인 방법은 평점을 유사도로 가중 평균하는 방법이다. 아이템 기반에서 User1이 movie1에 줄 평점을 예측하는 상황을 가정하자. 우선, User1이 평점을 준 모든 영화와 movie1의 유사도를 계산한다. 그리고 User1이 각 영화에 준 평점과 유사도를 곱하여 평균을 내리는 것이다. 사용자 기반에서는 영화와 사용자를 바꾸어 생각하면 되므로 설명을 생략하겠다. 이 가정에서는 모든 영화와 movie1의 유사도를 구했지만 모든 영화와의 유사도를 이용하면 오버 피팅의 가능성이 커진다. 따라서 보통 movie1과의 유사도가 큰 영화만을 이용한다. 유사도가 큰 데이터를 고르는 방법에는 대표적으로 두 가지가 있다. 첫 번째는 미리 설정한 수치만큼의 유사도를 넘어야만 예측에 사용하는 방법이다. 그리고 두 번째는 K-nn(K-nearest neighbors)알고리즘을 사용하여 최근접 이웃을 구성하는 방법이다. 이 과정에서 구한 최근접 이웃의 수를 N이라고 하고 i번째 최근접 이웃과의 유사도를 n_i, 그 이웃이 준 평점을 R_i라고 할 때, 예상 평점 R_predict은 다음의 식으로 표현할 수 있다.
+​	유사도를 다 구했다면, 우리의 다음 관심사는 평점을 예측하는 방법이다. 평점 예측의 가장 대표적인 방법은 평점을 유사도로 가중 평균하는 방법이다. 아이템 기반에서 User1이 movie1에 줄 평점을 예측하는 상황을 가정하자. 우선, User1이 평점을 준 모든 영화와 movie1의 유사도를 계산한다. 그리고 User1이 각 영화에 준 평점과 유사도를 곱하여 평균을 내리는 것이다. 사용자 기반에서는 영화와 사용자를 바꾸어 생각하면 되므로 설명을 생략하겠다. 이 가정에서는 모든 영화와 movie1의 유사도를 구했지만 모든 영화와의 유사도를 이용하면 오버 피팅의 가능성이 커진다. 따라서 보통 movie1과의 유사도가 큰 영화만을 이용한다. 유사도가 큰 데이터를 고르는 방법에는 대표적으로 두 가지가 있다. 첫 번째는 미리 설정한 수치만큼의 유사도를 넘어야만 예측에 사용하는 방법이다. 그리고 두 번째는 K-nn(K-nearest neighbors)알고리즘을 사용하여 최근접 이웃을 구성하는 방법이다. 이 과정에서 구한 최근접 이웃의 수를 N이라고 하고 i번째 최근접 이웃과의 유사도를 sim_i, 그 이웃이 준 평점을 R_i라고 할 때, 예상 평점 R_predict은 다음의 식으로 표현할 수 있다. 평점들을 단순히 가중 평균한 것이다.
+
+![]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/KNN.png )
 
 
 
-일반적으로는, 피어슨 유사도와 같이 mean으로 보정하여 다음과 같은 식을 사용한다.
+일반적으로는, 피어슨 유사도와 같이 mean으로 보정하여 다음과 같은 식을 사용한다. 평점들을 평균값 기준으로 가중 평균한 KNN with Means 기법이다.
 
-​    
-$$
-R_{predict}=(R_{real}) ̅+(∑_{i=1}^Nn_i (R_i-R_{mean} )) / (∑_{i=1}^Nn_i )
-$$
+​    ![]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/KNNwithmean.png )
+
+
 
 
 # 4. Evaluation & Analysis
 
+사용자 기반 협업 필터링 알고리즘을 코드로 작성해 실험해보았다.
+
+원래 데이터셋을 8대 2로 나눈 u1.base, u1.test를 각각 training data, test data로 이용한다.
+
+| 열        | 내용                                   | 사용  여부 |
+| --------- | -------------------------------------- | ---------- |
+| userId    | 사용자의  ID                           | o          |
+| movieId   | 영화의  ID                             | o          |
+| rating    | 사용자가  영화에 남긴 평점, 1~5의 정수 | o          |
+| timestamp | 평점을  남긴 시간                      | x          |
+
+------
 
 
-사용자 기반 협업 필터링 알고리즘을 코드로 작성해보았다.
 
 ```python
 import pandas as pd
@@ -238,6 +232,24 @@ def sim_user(user1,user2):
 
 ![sim1]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/sim1.png )
 
+
+
+```python
+print(sim_user(1,2))
+print(sim_user(1,3))
+print(sim_user(1,4))
+```
+
+```python
+0.5218
+0.5251
+1.0
+```
+
+차례대로 유저1과 2의 유사도, 유저 1과 3의 유사도, 유저 1과 4의 유사도를 출력 해보았다. Pearson correlation 유사도는 -1부터 1까지 값이 가능하다.
+
+
+
 ------
 
 **각 유저의 다른 모든 유저에 대한 similarity 계산해서 저장하는 함수**
@@ -258,7 +270,26 @@ def calculate_similarity():
         # neighbors = { user_id : [sorted (user_id, similarity)] }
 ```
 
-이 함수를 실행하면 모든 유저 조합간 유사도를 계산한다. 즉, 각 943명의 유저에 대해 해당 유저를 제외한 다른 모든 유저(942명)와의 유사도를 계산하고, 유사도가 큰 것이 앞에 나오게 정렬해 "neighbors" 자료구조에 저장한다.  유사도 대로 정렬하는 이유는 rating 예측시 KNN 기법을 사용하는데, 쉽게 제일 가까운(유사도가 제일 큰) 이웃 유저를 접근할 수 있기 때문이다.
+이 함수를 실행하면 모든 유저 조합간 유사도를 계산한다. 즉, 각 943명의 유저에 대해 해당 유저를 제외한 다른 모든 유저(942명)와의 유사도를 계산하고, 유사도가 큰 것이 앞에 나오게 정렬해 `neighbors` 자료구조에 저장한다.  유사도 대로 정렬하는 이유는 rating 예측시 KNN 기법을 사용하는데, 쉽게 제일 가까운(유사도가 제일 큰) 이웃 유저를 접근할 수 있기 때문이다.
+
+------
+
+유저2와 다른 모든 유저간 유사도가 정렬된 리스트가 저장되어 있는 것을 확인해본다.
+
+```
+calculate_similarity()   # 모든 유저간 유사도 계산해서 저장
+print(len(neighbors[2])) # 유저2의 다른 942명 유저와의 유사도
+print(neighbors[2])
+```
+
+```
+942
+[(5, 1.0), (22, 1.0), (25, 1.0), (67, 1.0), (76, 1.0), (96, 1.0), (98, 1.0), (135, 1.0), (142, 1.0), (154, 1.0), (156, 1.0), (208, 1.0), (217, 1.0), (260, 1.0), (270, 1.0), (290, 1.0), (310, 1.0), (340, 1.0), (359, 1.0), (366, 1.0), (367, 1.0), (368, 1.0), (471, 1.0), (519, 1.0), (522, 1.0), (607, 1.0), (686, 1.0), (911, 1.0), (912, 1.0), (167, 0.9997), (744, 0.999), (80, 0.9951), (267, 0.9939), (600, 0.9928), (645, 0.9895), (23, 0.9666)
+.. 
+ (28, -0.9809), (97, -0.9839), (248, -0.9969), (8, -1.0), (20, -1.0), (31, -1.0), (41, -1.0), (124, -1.0), (127, -1.0), (148, -1.0), (180, -1.0), (182, -1.0), (187, -1.0), (211, -1.0), (224, -1.0), (225, -1.0), (282, -1.0), (292, -1.0), (317, -1.0), (565, -1.0), (712, -1.0), (849, -1.0), (855, -1.0), (914, -1.0), (925, -1.0)]
+```
+
+
 
 ------
 
@@ -279,28 +310,125 @@ def predict_rating(user_id, movie_id):
             nei_id = neighbors[user_id][i][0]
             nei_sim = neighbors[user_id][i][1]
             
-            rating += (ratings[nei_id][movie_id] - means[nei_id]) * nei_sim
+            rating += ratings[nei_id][movie_id] * nei_sim
             K += nei_sim
     
     if K != 0:
-        rating = rating / K + means[user_id]
+        rating = (rating / K) 
     else:
         rating = 2.3
         
-    if rating < 1:
-        rating = 1
-    elif rating > 5:
-        rating = 5
-        
     return rating
-
 ```
 
 이 함수는 한 유저의 한 영화에 대한 평점을 예측해 리턴하는 함수이다. 
 
+"K-Nearest Neighbors"유저의 평점을 유사도로 가중 평균내는 공식을 사용하여 예측 평점을 계산한다. 
+
+![]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/KNN.png )
+
+유저와 제일 가까운 K개 (위에선 40개) 이웃 유저의 평점을 활용한다. 이 때, 해당 영화 평점 데이터가 없는 유저가 있을 수 있기 때문에 예외처리를 잘 해야한다. 해당 영화의 평점을 실제로 매긴 40개 이웃 유저의 평점과 유저와 이웃 유저 간 유사도를 이용해 공식처럼 계산하면 예측값을 얻을 수 있다.
+
+------
+
+```python
+print(predict_rating(1,1))
+print(predict_rating(1,2))
+```
+
+```
+4.4178939023402055
+3.3305233814943893
+```
+
+이렇게 유저1의 영화1에 대한 예측평점과 유저1의 영화2에 대한 예측평점을 출력해보면 1과 5 사이로 예측한다는 것을 알 수 있다.
+
+------
+
+```python
+def prediction():
+    test = pd.read_csv("u1.test", sep="\t", names=['userId', 'movieId', 'rating', 'timestamp'])
+    del test['timestamp']
+    test = np.array(test)
+    
+    sqaure = 0
+    #  RMSE (Root Mean Square Error) 
+    for user_id, movie_id, rating in test:
+        # sum of (아이템의 예측 레이팅 - 아이템의 원래 레이팅) ** 2
+        sqaure += (predict_rating(user_id, movie_id) - rating) ** 2
+    return np.sqrt(sqaure / len(test))
+```
+
+이 함수는 테스트 파일의 모든 데이터 레코드 (유저id, 영화id, 평점)에 대해서 해당 유저의 해당 영화 예측 평점을 구해 실제 평점과의 차로 오차를 계산한다. 오차는 RMSE (Root Mean Square Error) 를 사용한다. R_real 은 실제 rating 값이고 R_predict은 예측 rating 값이며 N은 rating의 수 (혹은 레코드 수)이다.
+
+![]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/rmse.png )
+
+리턴값인 RMSE는 말그대로 오류이므로 더 작을수록 모델의 예측 성능이 더 뛰어난 것이다.
+
+```
+rmse = prediction()
+print(rmse)
+```
+
+```
+1.0463047473120506
+```
+
+전체 테스트 데이터셋의 RMSE는 0.986172895393817 이 나왔다.
+
+------
 
 
 
+```python
+def predict_rating(user_id, movie_id):
+    rating = 0
+    K = 0
+    j = 0
+    for i in range(N_user - 1):
+        # valid neighbor 40개까지
+        if j > 40:
+            break
+        # 해당 영화 평점을 실제로 매긴 neighbor 유저만 취급
+        if movie_id in ratings[neighbors[user_id][i][0]]:
+            j += 1
+            nei_id = neighbors[user_id][i][0]
+            nei_sim = neighbors[user_id][i][1]
+                                                 ### mean으로 보정
+            rating += (ratings[nei_id][movie_id] - means[nei_id]) * nei_sim
+            K += nei_sim
+    
+    if K != 0:
+        rating = means[user_id] + (rating / K)  ###
+    else:
+        rating = 2.3
+        
+    return rating
+```
+
+만약 `predict_rating` 함수에서 "KNN 가중 평균" 방식을 사용하지 않고 아래 공식처럼  "KNN with means"방식으로 평점들을 평균값 기준으로 가중 평균 했을시엔 
+
+![]( https://raw.githubusercontent.com/skifree64/skifree64.github.io/master/_posts/KNNwithmean.png )
+
+```
+rmse = prediction()
+print(rmse)
+```
+
+```
+0.986172895393817
+```
+
+다음과 같은 결과가 나온다.
+
+```
+rmse(knn) = 1.0463047473120506
+rmse(knnWithMeans) = 0.986172895393817
+```
+
+평점 예측하는 방식을 mean 값으로 보정하니 RMSE가 줄어들고 더 최적화된 예측을 한다는 것을 알 수 있다.
+
+ 
 
 # 5. Related Work
 
