@@ -512,7 +512,7 @@ rmse(knnWithMeans) => 0.986172895393817
 
 #### 설명링크
 
-[Youtube영상]( https://www.youtube.com/watch?v=EryNVps0Ii0&feature=share )
+[Youtube영상](  https://www.youtube.com/watch?v=Ik_Lz2Tt1BQ&feature=youtu.be  )
 
 
 
